@@ -4,7 +4,6 @@
 #include <iostream>
 #include <map>
 #include <vector>
-#include <chrono>
 #include <unordered_map>
 #include <string>
 #include <functional>
@@ -226,8 +225,6 @@ public:
 
 int main(int argc, char *argv[])
 {
-    using namespace std::chrono;
-    std::chrono::steady_clock::time_point startTime = std::chrono::steady_clock::now();
     std::vector<std::string> arguments;
     for (int i = 0; i < argc; ++i)
         arguments.emplace_back(argv[i]);
@@ -235,15 +232,8 @@ int main(int argc, char *argv[])
     try
     {
         UrlStatistics statistics(arguments);
-		std::chrono::steady_clock::time_point ctorFinishedTime = std::chrono::steady_clock::now();
-        statistics.GenerateStatistics();
-		std::chrono::steady_clock::time_point fileProcessedTime = std::chrono::steady_clock::now();
-        statistics.OutputStatistics();
-		std::chrono::steady_clock::time_point totalTime = std::chrono::steady_clock::now();
-
-		std::cout << "Constructor finished in " << duration_cast<duration<double>>(ctorFinishedTime - startTime).count() << " seconds" << "\n";
-		std::cout << "File processed in " << duration_cast<duration<double>>(fileProcessedTime - startTime).count() << " seconds" << "\n";
-		std::cout << "Total elapsed " << duration_cast<duration<double>>(totalTime - startTime).count() << " seconds" << "\n";
+		statistics.GenerateStatistics();
+		statistics.OutputStatistics();		
     }
     catch (std::exception & e)
     {
